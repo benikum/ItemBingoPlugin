@@ -1,0 +1,8 @@
+name: ItemBingo
+version: '1.0'
+main: de.benikum.itembingo.Main
+api-version: '1.20'
+commands:
+  bingo:
+    description: Bingo Game
+    usaged: addplayer/startgame/time/reset

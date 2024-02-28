@@ -1,0 +1,9 @@
+name: ItemBingo
+version: '${project.version}'
+main: de.benikum.itembingo.Main
+api-version: '1.20'
+commands:
+  bingo:
+    description: Bingo Game
+    usaged: addplayer/startgame/time/reset
+    permission: itembingo.command
