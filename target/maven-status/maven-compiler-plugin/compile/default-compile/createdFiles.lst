@@ -1,3 +1,6 @@
 de\benikum\itembingo\Game.class
-de\benikum\itembingo\Command.class
+de\benikum\itembingo\BingoCommand.class
+de\benikum\itembingo\BingoTabCompleter.class
+de\benikum\itembingo\PlayerPickupItem.class
+de\benikum\itembingo\ItemSelector.class
 de\benikum\itembingo\Main.class

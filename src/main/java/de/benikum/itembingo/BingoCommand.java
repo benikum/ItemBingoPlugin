@@ -16,7 +16,7 @@ public class BingoCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
-        switch (args[1]) {
+        if (args.length >= 1) switch (args[0]) {
             case "player":
                 Player argPlayer = Bukkit.getServer().getPlayer(args[3]);
                 switch (args[2]) {
@@ -35,11 +35,11 @@ public class BingoCommand implements CommandExecutor {
                         return false;
                 }
             case "start":
-            default:
-                // open inventory
+                game.startGame();
+
+        } else if (game.active) {
+            player.sendMessage("openInv");
         }
         return false;
-    }
-
     }
 }
