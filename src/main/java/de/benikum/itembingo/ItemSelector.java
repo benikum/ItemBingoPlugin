@@ -10,6 +10,7 @@ import java.util.Set;
 public class ItemSelector {
     private static final Random random = new Random();
     private static final Material[] materials = Material.values();
+    
     private Set<Material> randomMaterials = new HashSet<>();
     private int itemSetSize;
     
@@ -17,7 +18,6 @@ public class ItemSelector {
         this.itemSetSize = amount;
         fillSearchItems();
     }
-    
     public Set<Material> getRandomMaterials() {
         return randomMaterials;
     }
@@ -33,13 +33,12 @@ public class ItemSelector {
         fillSearchItems();
     }
     public void fillSearchItems() {
-        do {
+        while (randomMaterials.size() < itemSetSize) {
             int randomIndex = random.nextInt(materials.length);
             Material thisMaterial = materials[randomIndex];
-            ItemStack testItemStack = new ItemStack(thisMaterial);
-            if (testItemStack.getType().equals(thisMaterial)) {
+            if (thisMaterial.isItem()) {
                 randomMaterials.add(thisMaterial);
             }
-        } while (randomMaterials.size() < itemSetSize);
+        }
     }
 }

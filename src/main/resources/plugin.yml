@@ -6,4 +6,3 @@ commands:
   bingo:
     description: Bingo Game
     usaged: addplayer/startgame/time/reset
-    permission: itembingo.command

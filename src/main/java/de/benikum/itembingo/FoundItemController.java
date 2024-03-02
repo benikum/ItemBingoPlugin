@@ -8,7 +8,7 @@ import java.util.Set;
 public class FoundItemController {
     private Set<Material> foundMaterials = new HashSet<>();
     
-    public void registerItem(Material material) {
+    public void addFoundItem(Material material) {
         foundMaterials.add(material);
     }
     public boolean getIfFoundAllItems(ItemSelector items) {

@@ -16,12 +16,12 @@ public class ItemGUIHandler implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         if (event.getView().title().toString().equals("Bingo Items")) {
-            event.setCancelled(true);
             if (event.getWhoClicked().isOp() && player.getGameMode().equals(GameMode.CREATIVE)) {
                 Material material = event.getCurrentItem().getType();
                 game.itemSelector.rerollItem(material);
                 player.sendMessage(String.format("changed item %s", material.name()));
             }
+            event.setCancelled(true);
         }
     }
 }
