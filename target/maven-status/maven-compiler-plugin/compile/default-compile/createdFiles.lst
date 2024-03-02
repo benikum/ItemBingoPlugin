@@ -1,5 +1,6 @@
 de\benikum\itembingo\Game.class
 de\benikum\itembingo\BingoCommand.class
+de\benikum\itembingo\GameIdleHandler.class
 de\benikum\itembingo\FoundItemController.class
 de\benikum\itembingo\ItemGUIHandler.class
 de\benikum\itembingo\BingoTabCompleter.class

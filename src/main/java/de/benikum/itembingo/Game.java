@@ -8,13 +8,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 public class Game {
-    Set<Player> inGamePlayers = new HashSet<>();
-    Map<Player, FoundItemController> playerItemMap = new HashMap<>();
+    Set<Player> inGamePlayers;
+    Map<Player, FoundItemController> playerItemMap;
     ItemSelector searchItems = new ItemSelector(9);
     boolean gameActive = false;
 
@@ -24,32 +23,15 @@ public class Game {
         playerItemMap.clear();
         searchItems.clear();
     }
+    
     public void addPlayer(Player player) {
         inGamePlayers.add(player);
-    }
-    public void addAllPlayers() {
-        inGamePlayers.addAll(Bukkit.getServer().getOnlinePlayers());
-    }
-    public void removePlayer(Player player) {
-        inGamePlayers.remove(player);
-    }
-    public void printPlayers(Player player) {
-        if (inGamePlayers.isEmpty()) {
-            player.sendMessage("No Bingo Players :(");
-            return;
-        }
-        StringBuilder msg = new StringBuilder("Bingo Players: ");
-        // build output string from inGamePlayers
-        for (Player p : inGamePlayers) {
-            msg.append(p.getName()).append(", ");
-        }
-        // remove last ", "
-        player.sendMessage(msg.substring(0, msg.length() - 2));
+        Bukkit.broadcast(Component.text(String.format("Player %s has been added to the Game", player.getName())));
     }
     
     public void openBingoInventory(Player player) {
         if (!gameActive) return;
-        Inventory inventory = Bukkit.createInventory(player, searchItems.itemSetSize, Component.text("Bingo Items"));
+        Inventory inventory = Bukkit.createInventory(player, searchItems.getItemSetSize(), Component.text("Bingo Items"));
         for (Material m : playerItemMap.get(player).getNotFoundItems(searchItems)) {
             inventory.addItem(new ItemStack(m));
         }
@@ -59,16 +41,17 @@ public class Game {
     public void startGame() {
         gameActive = true;
         playerItemMap = new HashMap<>();
-        for (Player p : inGamePlayers) {
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            inGamePlayers.add(p);
             playerItemMap.put(p, new FoundItemController());
-            p.sendMessage("§lBingo game started");
+            p.sendMessage("§2Bingo game started");
             openBingoInventory(p);
         }
     }
     
     public void playerFoundItem(Player player, Material item) {
         if (!gameActive) return;
-        if (inGamePlayers.contains(player) && searchItems.getSearchItems().contains(item)) {
+        if (inGamePlayers.contains(player) && searchItems.getRandomMaterials().contains(item)) {
             playerItemMap.get(player).registerItem(item);
             player.sendMessage(String.format("§eFound Item: %s", item.name()));
             checkForWin(player);
@@ -78,8 +61,6 @@ public class Game {
     private void checkForWin(Player player) {
         if (!playerItemMap.get(player).getIfFoundAllItems(searchItems)) return;
         resetGame();
-        for (Player p : inGamePlayers) {
-            p.sendMessage(String.format("§l§9Player %s won the Bingo Game", player));
-        }
+        Bukkit.broadcast(Component.text(String.format("§ePlayer %s won the Game", player.getName())));
     }
 }

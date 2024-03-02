@@ -12,7 +12,7 @@ public class FoundItemController {
         foundMaterials.add(material);
     }
     public boolean getIfFoundAllItems(ItemSelector items) {
-        for (Material m : items.getSearchItems()) {
+        for (Material m : items.getRandomMaterials()) {
             if (!foundMaterials.contains(m)) {
                 return false;
             }
@@ -21,7 +21,7 @@ public class FoundItemController {
     }
     public Set<Material> getNotFoundItems(ItemSelector items) {
         Set<Material> notFound = new HashSet<>();
-        for (Material m : items.getSearchItems()) {
+        for (Material m : items.getRandomMaterials()) {
             if (!foundMaterials.contains(m)) {
                 notFound.add(m);
             }

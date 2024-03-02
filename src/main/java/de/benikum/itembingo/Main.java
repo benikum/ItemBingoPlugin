@@ -11,5 +11,6 @@ public final class Main extends JavaPlugin {
         getCommand("bingo").setTabCompleter(new BingoTabCompleter());
         getServer().getPluginManager().registerEvents(new PlayerPickupItem(game), this);
         getServer().getPluginManager().registerEvents(new ItemGUIHandler(game), this);
+        getServer().getPluginManager().registerEvents(new GameIdleHandler(game), this);
     }
 }
