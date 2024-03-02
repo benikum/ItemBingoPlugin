@@ -14,14 +14,14 @@ import java.util.Set;
 public class Game {
     Set<Player> inGamePlayers;
     Map<Player, FoundItemController> playerItemMap;
-    ItemSelector searchItems = new ItemSelector(9);
+    ItemSelector itemSelector = new ItemSelector(9);
     boolean gameActive = false;
-
+    
     public void resetGame() {
         gameActive = false;
         inGamePlayers.clear();
         playerItemMap.clear();
-        searchItems.clear();
+        itemSelector.clear();
     }
     
     public void addPlayer(Player player) {
@@ -31,8 +31,8 @@ public class Game {
     
     public void openBingoInventory(Player player) {
         if (!gameActive) return;
-        Inventory inventory = Bukkit.createInventory(player, searchItems.getItemSetSize(), Component.text("Bingo Items"));
-        for (Material m : playerItemMap.get(player).getNotFoundItems(searchItems)) {
+        Inventory inventory = Bukkit.createInventory(player, itemSelector.getItemSetSize(), Component.text("Bingo Items"));
+        for (Material m : playerItemMap.get(player).getNotFoundItems(itemSelector)) {
             inventory.addItem(new ItemStack(m));
         }
         player.openInventory(inventory);
@@ -51,7 +51,7 @@ public class Game {
     
     public void playerFoundItem(Player player, Material item) {
         if (!gameActive) return;
-        if (inGamePlayers.contains(player) && searchItems.getRandomMaterials().contains(item)) {
+        if (inGamePlayers.contains(player) && itemSelector.getRandomMaterials().contains(item)) {
             playerItemMap.get(player).registerItem(item);
             player.sendMessage(String.format("§eFound Item: %s", item.name()));
             checkForWin(player);
@@ -59,7 +59,7 @@ public class Game {
     }
     
     private void checkForWin(Player player) {
-        if (!playerItemMap.get(player).getIfFoundAllItems(searchItems)) return;
+        if (!playerItemMap.get(player).getIfFoundAllItems(itemSelector)) return;
         resetGame();
         Bukkit.broadcast(Component.text(String.format("§ePlayer %s won the Game", player.getName())));
     }

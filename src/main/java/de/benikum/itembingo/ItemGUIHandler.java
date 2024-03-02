@@ -19,7 +19,7 @@ public class ItemGUIHandler implements Listener {
             event.setCancelled(true);
             if (event.getWhoClicked().isOp() && player.getGameMode().equals(GameMode.CREATIVE)) {
                 Material material = event.getCurrentItem().getType();
-                game.searchItems.rerollItem(material);
+                game.itemSelector.rerollItem(material);
                 player.sendMessage(String.format("changed item %s", material.name()));
             }
         }
