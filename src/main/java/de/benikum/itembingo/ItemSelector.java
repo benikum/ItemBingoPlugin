@@ -1,23 +1,42 @@
 package de.benikum.itembingo;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 public class ItemSelector {
-    static final Random random = new Random();
-    public static Material getRandomMaterial() {
-        Material[] materials = Material.values();
-        int randomIndex = random.nextInt(materials.length);
-        return materials[randomIndex];
+    private static final Random random = new Random();
+    private static final Material[] materials = Material.values();
+    private Set<Material> searchItems = new HashSet<>();
+    int itemSetSize;
+    
+    public ItemSelector(int amount) {
+        this.itemSetSize = amount;
+        fillSearchItems();
     }
-    public static Set<Material> getRandomMaterialSet(int amount) {
-        Set<Material> materialSet = new HashSet<>();
-        while (materialSet.size() < amount) {
-            materialSet.add(getRandomMaterial());
+    
+    public Set<Material> getSearchItems() {
+        return searchItems;
+    }
+    public void fillSearchItems() {
+        while (searchItems.size() < itemSetSize) {
+            int randomIndex = random.nextInt(materials.length);
+            Material thisMaterial = materials[randomIndex];
+            ItemStack testItemStack = new ItemStack(thisMaterial);
+            if (testItemStack.getType().equals(thisMaterial)) {
+                searchItems.add(thisMaterial);
+            }
         }
-        return materialSet;
+    }
+    public void changeItem(Material material) {
+        if (!searchItems.contains(material)) return;
+        searchItems.remove(material);
+        fillSearchItems();
+    }
+    public void clear() {
+        searchItems.clear();
     }
 }
