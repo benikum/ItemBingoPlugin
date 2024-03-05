@@ -13,16 +13,19 @@ import java.util.Map;
 import java.util.Set;
 
 public class Game {
-    Set<Player> inGamePlayers = new HashSet<>();
+    Set<Player> inGamePlayers;
     Map<Player, FoundItemController> playerItemMap;
-    ItemSelector itemSelector = new ItemSelector(9);
-    boolean gameActive = false;
+    ItemSelector itemSelector;
+    boolean gameActive;
+    
+    public Game() {
+        resetGame();
+    }
     
     public void resetGame() {
+        inGamePlayers = new HashSet<>();
+        itemSelector = new ItemSelector(9);
         gameActive = false;
-        inGamePlayers.clear();
-        playerItemMap.clear();
-        itemSelector.clear();
     }
     public void addPlayer(Player player) {
         inGamePlayers.add(player);
@@ -31,9 +34,6 @@ public class Game {
     public void openBingoInventory(Player player) {
         if (!gameActive) return;
         Inventory inventory = Bukkit.createInventory(player, itemSelector.getItemSetSize(), Component.text("Bingo Items"));
-        // for (Material m : playerItemMap.get(player).getNotFoundItems(itemSelector)) {
-        //     inventory.addItem(new ItemStack(m));
-        // }
         for (Material m : itemSelector.getRandomMaterials()) {
             inventory.addItem(new ItemStack(m));
         }

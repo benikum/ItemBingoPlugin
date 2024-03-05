@@ -1,5 +1,6 @@
 package de.benikum.itembingo;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,7 +16,7 @@ public class ItemGUIHandler implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        if (event.getView().title().toString().equals("Bingo Items")) {
+        if (event.getView().title().equals(Component.text("Bingo Items"))) {
             if (event.getWhoClicked().isOp() && player.getGameMode().equals(GameMode.CREATIVE)) {
                 Material material = event.getCurrentItem().getType();
                 game.itemSelector.rerollItem(material);
